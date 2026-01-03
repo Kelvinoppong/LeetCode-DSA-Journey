@@ -91,3 +91,27 @@ def climbStairs(self, n: int) -> int:
     for i in range(2, n + 1):
         dp[i] = dp[i - 1] + dp[i - 2]
     return dp[i]
+
+
+"""You are given an integer array cost where cost[i] is the cost of ith step on a staircase. Once you pay the cost, you can either climb one or two steps.
+
+You can either start from the step with index 0, or the step with index 1.
+
+Return the minimum cost to reach the top of the floor."""
+
+
+class Solution:
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        n = len(cost)
+        dp = [0] * (n + 1)
+
+        if n <= 1:
+            return 0
+        # you can either stand on index 0 or 1. so from there it does'nt count
+        dp[0] = 0
+        dp[1] = 0
+        # when you take two step or one step and you land you pay for it... the you take the minimum This is DP tabulation so
+        # we move from button to top.
+        for i in range(2, n + 1):
+            dp[i] = min(dp[i - 1] + cost[i - 1], dp[i - 2] + cost[i - 2])
+        return dp[i]
