@@ -1,5 +1,5 @@
 """:
-Longest Substring Without Repeating Characters
+LONGEST SUBSTRING WITHOUT REPEATING CHARACTER
 - We use the sliding window technique with two pointers: left (l) and right (r).
 - The right pointer moves forward one character at a time to expand the window.
 - A set is used to keep track of characters currently in the window.
@@ -25,7 +25,7 @@ class Solution:
 
 
 """
-Fibonacci
+FIBONACCI
 The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is,
 
 F(0) = 0, F(1) = 1
@@ -62,3 +62,32 @@ def fib(n, dp=None):
         return dp[n]
     dp[n] = fib(n - 2, dp) + fib(n - 1, dp)
     return dp[n]
+
+
+"""
+CLIMBING STAIRS
+"""
+# You are climbing a staircase. It takes n steps to reach the top.
+
+
+# Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+# class Solution:
+def climbStairs(self, n: int) -> int:
+
+    if n <= 1:
+        return 1
+    dp = [0] * (n + 1)
+
+    # if you are on the ground, the only way to get there is one path, you can't say zero else you won't end
+    # eg n = 2
+    # dp[2] = f(2-2) + f(2-1) = 0 + 1 = 2 which is incorrect, that why f(0) is counted as one
+    # if you are at  the stair one, the only way to to get to the ground is one way  (n-1)
+
+    # since it's tabulation you build from button to top
+
+    dp[0] = 1
+    dp[1] = 1
+
+    for i in range(2, n + 1):
+        dp[i] = dp[i - 1] + dp[i - 2]
+    return dp[i]
