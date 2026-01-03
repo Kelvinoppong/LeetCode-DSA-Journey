@@ -1,0 +1,24 @@
+""":
+Longest Substring Without Repeating Characters
+- We use the sliding window technique with two pointers: left (l) and right (r).
+- The right pointer moves forward one character at a time to expand the window.
+- A set is used to keep track of characters currently in the window.
+- If the character at the right pointer already exists in the set, it means we have a duplicate.
+- To resolve this, we shrink the window from the left by removing characters from the set and moving the left pointer forward until the duplicate is removed.
+- After adding the current character to the set, we update the maximum window size.
+- This process continues until the right pointer has traversed the entire string.
+"""
+
+
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        max_len = 0
+        l = 0
+        seen = set()
+        for r in range(len(s)):
+            while s[r] in seen:
+                seen.remove(s[l])
+                l += 1
+            seen.add(s[r])
+            max_len = max(max_len, r - l + 1)
+        return max_len
