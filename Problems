@@ -36,6 +36,7 @@ Given n, calculate F(n).
 """
 
 
+# Tabulation
 class Solution:
     def fib(self, n: int) -> int:
 
