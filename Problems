@@ -124,3 +124,32 @@ There is a frog on the '1st' step of an 'N' stairs long staircase. The frog want
 For Example
 If the given ‘HEIGHT’ array is [10,20,30,10], the answer 20 as the frog can jump from 1st stair to 2nd stair (|20-10| = 10 energy lost) and then a jump from 2nd stair to last stair (|10-20| = 10 energy lost). So, the total energy lost is 20.
 """
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+from typing import *
+
+
+def frogJump(n: int, heights: List[int]) -> int:
+    dp = [-1] * (n)
+
+    def solve(i):
+
+        if i == 0:
+            return 0
+        if dp[i] != -1:
+            return dp[i]
+        # check for one and two step:
+        left = solve(i - 1) + abs(heights[i] - heights[i - 1])
+
+        right = float("inf")
+        if i > 1:
+            right = solve(i - 2) + abs(heights[i] - heights[i - 2])
+
+        dp[i] = min(left, right)
+        return dp[i]  # to be used in the next iteration
+
+    return solve(n - 1)
+    pass
