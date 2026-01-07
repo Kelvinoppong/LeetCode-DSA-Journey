@@ -155,7 +155,26 @@ def frogJump(n: int, heights: List[int]) -> int:
     pass
 
 
-# Tabulation version when given k i.e jump k + 1, k + 2, k + 3....
+"""Tabulation"""
+
+
+def frogJump(n: int, heights: List[int]) -> int:
+    dp = [float("inf")]
+    dp[0] = 0
+
+    for i in range(1, n):
+        left = dp[i] + heights[i] - heights(i - 1)
+
+        right = float("inf")
+        if i > 1:  # meaning if we are at 0, can we jump to i + 2
+            right = dp[i] + heights[i] - heights[i - 2]
+
+        dp[i] = min(left, right)
+    return dp[n - 1]
+    pass
+
+
+""" Tabulation version when given k i.e jump k + 1, k + 2, k + 3...."""
 k = 5
 
 
