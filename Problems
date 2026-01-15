@@ -192,3 +192,29 @@ def frogJump(n: int, heights: List[int]) -> int:
                 # dp of i is infinity
                 dp[i] = min(dp[i], dp[i - j] + abs(heights[i] - heights[i - j]))
         return dp[n - 1]  # this is the last element
+
+
+"""983. Minimum Cost For Tickets"""
+
+
+class Solution:
+    def mincostTickets(self, days: List[int], costs: List[int]) -> int:
+        # minimum cost
+        # when i get a pass for today, will it be able to cover for the subsequent days and what will be the the minimum.
+        # Max_day = 30 from the first test case. we should be able to cate fro that day and beyond. The max pass is 30 so we should be able to cater for the next 30 days
+
+        # Tabulation
+
+        last_day = days[-1]
+        travel = set(days)
+        dp = [0] * (last_day + 31)  # covering for 30 + 1 index
+
+        for d in range(last_day, -1, -1):
+            if d not in travel:
+                dp[d] = dp[d + 1]
+            else:
+                dp[d] = min(
+                    costs[0] + dp[d + 1], costs[1] + dp[d + 7], costs[2] + dp[d + 30]
+                )
+
+        return dp[0]
