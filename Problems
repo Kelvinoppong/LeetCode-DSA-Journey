@@ -237,3 +237,19 @@ class Solution:
             suffix *= nums[i]
 
         return answer
+
+
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
+
+        act_set = set(nums)
+        longest = 0
+
+        for n in act_set:
+            if n - 1 not in act_set:  # start sequece
+                length = 1
+                while n + length in act_set:
+                    length += 1
+                longest = max(longest, length)
+
+        return longest
