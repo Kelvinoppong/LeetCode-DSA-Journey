@@ -253,3 +253,22 @@ class Solution:
                 longest = max(longest, length)
 
         return longest
+
+
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        # question is in two folds
+        # 1. best time to buy
+        # 2. best time to sell
+
+        min_val = float("inf")
+        profit = 0
+
+        for price in prices:
+            if price < min_val:
+                min_val = price  # best time to buy
+            else:
+
+                profit = max(profit, price - min_val)  # best time to sell
+
+        return profit
