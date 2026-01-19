@@ -272,3 +272,20 @@ class Solution:
                 profit = max(profit, price - min_val)  # best time to sell
 
         return profit
+
+
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        # implementation using sliding window solution
+
+        seen = set()
+        l = 0
+        max_len = 0
+
+        for r in range(len(s)):
+            while s[r] in seen:
+                seen.remove(s[l])
+                l += 1
+            max_len = max(max_len, r - l + 1)
+            seen.add(s[r])
+        return max_len
