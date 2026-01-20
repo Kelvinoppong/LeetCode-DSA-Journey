@@ -305,3 +305,36 @@ class Solution:
                 l += 1
             longest = max(longest, r - l + 1)
         return longest
+
+
+class Solution:
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        # this will be solved using fixed sliding window
+
+        n1 = len(s1)
+        n2 = len(s2)
+
+        count_s1 = [0] * 26
+        count_s2 = [0] * 26
+
+        # start to build the freq
+        if n1 > n2:
+            return False
+
+        for i in range(n1):
+            count_s1[ord(s1[i]) - ord("a")] += 1
+            count_s2[ord(s2[i]) - ord("a")] += 1
+
+        if (
+            count_s1 == count_s2
+        ):  # the equality should be checked after building everything
+            return True
+
+        for i in range(n1, n2):  # we have already build some so we continue from there
+            count_s2[ord(s2[i]) - ord("a")] += 1  # we add
+            count_s2[
+                ord(s2[i - n1]) - ord("a")
+            ] -= 1  # we remove from the start to keep the window fixed
+            if count_s1 == count_s2:
+                return True
+        return False
