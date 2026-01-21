@@ -378,3 +378,20 @@ class Solution:
             return 0
 
         return min_len
+
+
+class Solution:
+    def isValid(self, s: str) -> bool:
+
+        seen = {")": "(", "}": "{", "]": "["}
+        stack = []
+
+        for char in s:
+            if char in seen:  # we start with close bracket
+                pop = stack.pop() if stack else "#"  # we pop an open bracket
+
+                if seen[char] != pop:  # then we  compare
+                    return False
+            else:
+                stack.append(char)  # open bracket ([{
+        return not stack  # the stack should be empty
