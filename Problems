@@ -356,3 +356,25 @@ class Solution:
             if cur_sum < 0:
                 cur_sum = 0
         return max_sum
+
+
+class Solution:
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+
+        n = len(nums)
+        min_len = float("inf")
+
+        cur_sum = 0
+        l = 0
+        for r in range(n):  # sliding window expand
+            cur_sum += nums[r]
+            while cur_sum >= target:  # while it is greater
+                min_len = min(min_len, r - l + 1)  # we check the  min
+                cur_sum -= nums[l]  # then we shrink
+                l += 1
+        if min_len == float(
+            "inf"
+        ):  # at the end of everything and this hasn't been updated: NO SUBARRAY!!
+            return 0
+
+        return min_len
