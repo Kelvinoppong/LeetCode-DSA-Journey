@@ -426,3 +426,31 @@ class MinStack:
         if not self.min_stack:
             return "There is no minimum element"
         return self.min_stack[-1]
+
+
+class Solution:
+    def evalRPN(self, tokens: List[str]) -> int:
+
+        # we will use lambda function to create a dict
+        # when we see a value , it will be push on stack.
+        # when we see  an operator, we will pop the top two, perform operation and push it back
+
+        stack = []
+        calc = {
+            "+": lambda a, b: a + b,
+            "-": lambda a, b: a - b,
+            "*": lambda a, b: a * b,
+            "/": lambda a, b: int(a / b),
+        }  # it / generate float and the int truncates it to zero
+
+        for token in tokens:
+            if token in calc:
+                b = stack.pop()
+                a = stack.pop()
+
+                stack.append(
+                    calc[token](a, b)
+                )  # dictionary approach. perform our calculation the we push back
+            else:
+                stack.append(int(token))
+        return stack[0]  # it follow the same pattern as  he valid parenthesis
