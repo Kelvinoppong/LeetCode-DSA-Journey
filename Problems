@@ -454,3 +454,19 @@ class Solution:
             else:
                 stack.append(int(token))
         return stack[0]  # it follow the same pattern as  he valid parenthesis
+
+
+class Solution:
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        # monotonic stack
+        # res[ind] = i - ind
+        stack = []
+        n = len(temperatures)
+        res = [0] * n
+
+        for i in range(n):
+            while stack and temperatures[i] > temperatures[stack[-1]]:
+                prev = stack.pop()
+                res[prev] = i - prev  # prev = l and i = r
+            stack.append(i)
+        return res
