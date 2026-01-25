@@ -548,3 +548,42 @@ class Solution:
                 return True
 
         return False
+
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+
+class Solution:
+    def reorderList(self, head: Optional[ListNode]) -> None:
+
+        # Using array to do the reorder
+
+        cur = head
+
+        node = []
+        while cur:
+            node.append(cur)
+            cur = cur.next
+
+        l, r = 0, len(node) - 1
+        # because they are still nodes, we can use the pointer to connect the nodes
+
+        while l < r:
+            node[l].next = node[r]
+            l += 1
+
+            # when l and r becomes equal, that means  we are done connecting, so we should exit the loop
+
+            if l == r:
+                break
+
+            node[r].next = node[l]
+            r -= 1
+
+        node[l].next = (
+            None  # always the nodes are having next, so we have to terminate it else it will lead to infinite loop
+        )
