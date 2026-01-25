@@ -470,3 +470,26 @@ class Solution:
                 res[prev] = i - prev  # prev = l and i = r
             stack.append(i)
         return res
+
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        # keep track after when we remove the pointer from cur to prev
+        # next.node = cur.next
+
+        cur = head
+        prev = None
+
+        while cur:
+            next_node = cur.next
+            cur.next = prev
+            prev = cur
+            cur = next_node
+        return prev  # the prev becomes the new head because the fist node is now pointing to none
