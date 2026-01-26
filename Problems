@@ -587,3 +587,34 @@ class Solution:
         node[l].next = (
             None  # always the nodes are having next, so we have to terminate it else it will lead to infinite loop
         )
+
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+
+        cur = head
+        res = []
+
+        while cur:
+            res.append(cur.val)
+            cur = cur.next
+
+        ind = len(res) - n
+        res.pop(ind)
+
+        dummy = ListNode(0)
+        curr = dummy
+
+        for node in res:
+            curr.next = ListNode(node)
+
+            curr = curr.next
+
+        return dummy.next
