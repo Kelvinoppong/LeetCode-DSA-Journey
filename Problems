@@ -1,642 +1,651 @@
-""":
-LONGEST SUBSTRING WITHOUT REPEATING CHARACTER
-- We use the sliding window technique with two pointers: left (l) and right (r).
-- The right pointer moves forward one character at a time to expand the window.
-- A set is used to keep track of characters currently in the window.
-- If the character at the right pointer already exists in the set, it means we have a duplicate.
-- To resolve this, we shrink the window from the left by removing characters from the set and moving the left pointer forward until the duplicate is removed.
-- After adding the current character to the set, we update the maximum window size.
-- This process continues until the right pointer has traversed the entire string.
-"""
+# """:
+# LONGEST SUBSTRING WITHOUT REPEATING CHARACTER
+# - We use the sliding window technique with two pointers: left (l) and right (r).
+# - The right pointer moves forward one character at a time to expand the window.
+# - A set is used to keep track of characters currently in the window.
+# - If the character at the right pointer already exists in the set, it means we have a duplicate.
+# - To resolve this, we shrink the window from the left by removing characters from the set and moving the left pointer forward until the duplicate is removed.
+# - After adding the current character to the set, we update the maximum window size.
+# - This process continues until the right pointer has traversed the entire string.
+# """
 
 
-class Solution:
-    def lengthOfLongestSubstring(self, s: str) -> int:
-        max_len = 0
-        l = 0
-        seen = set()
-        for r in range(len(s)):
-            while s[r] in seen:
-                seen.remove(s[l])
-                l += 1
-            seen.add(s[r])
-            max_len = max(max_len, r - l + 1)
-        return max_len
-
-
-"""
-FIBONACCI
-The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is,
-
-F(0) = 0, F(1) = 1
-F(n) = F(n - 1) + F(n - 2), for n > 1.
-Given n, calculate F(n).
-
-
-"""
-
-
-# Tabulation
-class Solution:
-    def fib(self, n: int) -> int:
-
-        if n <= 1:
-            return n
-        dp = [0] * (n + 1)
-        dp[0] = 0
-        dp[1] = 1
-
-        for i in range(2, n + 1):
-            dp[i] = dp[i - 1] + dp[i - 2]
-
-        return dp[i]
-
-
-# Using Memoization
-def fib(n, dp=None):
-    if dp is None:
-        dp = [-1] * (n + 1)
-    if n <= 1:
-        return n
-    if dp[n] != -1:
-        return dp[n]
-    dp[n] = fib(n - 2, dp) + fib(n - 1, dp)
-    return dp[n]
-
-
-"""
-CLIMBING STAIRS
-"""
-# You are climbing a staircase. It takes n steps to reach the top.
-
-
-# Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
 # class Solution:
-def climbStairs(self, n: int) -> int:
+#     def lengthOfLongestSubstring(self, s: str) -> int:
+#         max_len = 0
+#         l = 0
+#         seen = set()
+#         for r in range(len(s)):
+#             while s[r] in seen:
+#                 seen.remove(s[l])
+#                 l += 1
+#             seen.add(s[r])
+#             max_len = max(max_len, r - l + 1)
+#         return max_len
 
-    if n <= 1:
-        return 1
-    dp = [0] * (n + 1)
 
-    # if you are on the ground, the only way to get there is one path, you can't say zero else you won't end
-    # eg n = 2
-    # dp[2] = f(2-2) + f(2-1) = 0 + 1 = 2 which is incorrect, that why f(0) is counted as one
-    # if you are at  the stair one, the only way to to get to the ground is one way  (n-1)
+# """
+# FIBONACCI
+# The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is,
 
-    # since it's tabulation you build from button to top
+# F(0) = 0, F(1) = 1
+# F(n) = F(n - 1) + F(n - 2), for n > 1.
+# Given n, calculate F(n).
 
-    dp[0] = 1
-    dp[1] = 1
 
-    for i in range(2, n + 1):
-        dp[i] = dp[i - 1] + dp[i - 2]
-    return dp[i]
+# """
 
 
-"""You are given an integer array cost where cost[i] is the cost of ith step on a staircase. Once you pay the cost, you can either climb one or two steps.
+# # Tabulation
+# class Solution:
+#     def fib(self, n: int) -> int:
 
-You can either start from the step with index 0, or the step with index 1.
+#         if n <= 1:
+#             return n
+#         dp = [0] * (n + 1)
+#         dp[0] = 0
+#         dp[1] = 1
 
-Return the minimum cost to reach the top of the floor."""
+#         for i in range(2, n + 1):
+#             dp[i] = dp[i - 1] + dp[i - 2]
 
+#         return dp[i]
 
-class Solution:
-    def minCostClimbingStairs(self, cost: List[int]) -> int:
-        n = len(cost)
-        dp = [0] * (n + 1)
 
-        if n <= 1:
-            return 0
-        # you can either stand on index 0 or 1. so from there it does'nt count
-        dp[0] = 0
-        dp[1] = 0
-        # when you take two step or one step and you land you pay for it... the you take the minimum This is DP tabulation so
-        # we move from button to top.
-        for i in range(2, n + 1):
-            dp[i] = min(dp[i - 1] + cost[i - 1], dp[i - 2] + cost[i - 2])
-        return dp[i]
+# # Using Memoization
+# def fib(n, dp=None):
+#     if dp is None:
+#         dp = [-1] * (n + 1)
+#     if n <= 1:
+#         return n
+#     if dp[n] != -1:
+#         return dp[n]
+#     dp[n] = fib(n - 2, dp) + fib(n - 1, dp)
+#     return dp[n]
 
 
-"""
-FROG JUMP
-There is a frog on the '1st' step of an 'N' stairs long staircase. The frog wants to reach the 'Nth' stair. 'HEIGHT[i]' is the height of the '(i+1)th' stair.If Frog jumps from 'ith' to 'jth' stair, the energy lost in the jump is given by absolute value of ( HEIGHT[i-1] - HEIGHT[j-1] ). If the Frog is on 'ith' staircase, he can jump either to '(i+1)th' stair or to '(i+2)th' stair. Your task is to find the minimum total energy used by the frog to reach from '1st' stair to 'Nth' stair.
+# """
+# CLIMBING STAIRS
+# """
+# # You are climbing a staircase. It takes n steps to reach the top.
 
-For Example
-If the given ‘HEIGHT’ array is [10,20,30,10], the answer 20 as the frog can jump from 1st stair to 2nd stair (|20-10| = 10 energy lost) and then a jump from 2nd stair to last stair (|10-20| = 10 energy lost). So, the total energy lost is 20.
-"""
-from os import *
-from sys import *
-from collections import *
-from math import *
 
-from typing import *
+# # Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+# # class Solution:
+# def climbStairs(self, n: int) -> int:
 
+#     if n <= 1:
+#         return 1
+#     dp = [0] * (n + 1)
 
-def frogJump(n: int, heights: List[int]) -> int:
-    dp = [-1] * (n)
+#     # if you are on the ground, the only way to get there is one path, you can't say zero else you won't end
+#     # eg n = 2
+#     # dp[2] = f(2-2) + f(2-1) = 0 + 1 = 2 which is incorrect, that why f(0) is counted as one
+#     # if you are at  the stair one, the only way to to get to the ground is one way  (n-1)
 
-    def solve(i):
+#     # since it's tabulation you build from button to top
 
-        if i == 0:
-            return 0
-        if dp[i] != -1:
-            return dp[i]
-        # check for one and two step:
-        left = solve(i - 1) + abs(heights[i] - heights[i - 1])
+#     dp[0] = 1
+#     dp[1] = 1
 
-        right = float("inf")
-        if i > 1:
-            right = solve(i - 2) + abs(heights[i] - heights[i - 2])
+#     for i in range(2, n + 1):
+#         dp[i] = dp[i - 1] + dp[i - 2]
+#     return dp[i]
 
-        dp[i] = min(left, right)
-        return dp[i]  # to be used in the next iteration
 
-    return solve(n - 1)
-    pass
+# """You are given an integer array cost where cost[i] is the cost of ith step on a staircase. Once you pay the cost, you can either climb one or two steps.
 
+# You can either start from the step with index 0, or the step with index 1.
 
-"""Tabulation"""
+# Return the minimum cost to reach the top of the floor."""
 
 
-def frogJump(n: int, heights: List[int]) -> int:
-    dp = [float("inf")]
-    dp[0] = 0
+# class Solution:
+#     def minCostClimbingStairs(self, cost: List[int]) -> int:
+#         n = len(cost)
+#         dp = [0] * (n + 1)
 
-    for i in range(1, n):
-        left = dp[i] + heights[i] - heights(i - 1)
+#         if n <= 1:
+#             return 0
+#         # you can either stand on index 0 or 1. so from there it does'nt count
+#         dp[0] = 0
+#         dp[1] = 0
+#         # when you take two step or one step and you land you pay for it... the you take the minimum This is DP tabulation so
+#         # we move from button to top.
+#         for i in range(2, n + 1):
+#             dp[i] = min(dp[i - 1] + cost[i - 1], dp[i - 2] + cost[i - 2])
+#         return dp[i]
 
-        right = float("inf")
-        if i > 1:  # meaning if we are at 0, can we jump to i + 2
-            right = dp[i] + heights[i] - heights[i - 2]
 
-        dp[i] = min(left, right)
-    return dp[n - 1]
-    pass
+# """
+# FROG JUMP
+# There is a frog on the '1st' step of an 'N' stairs long staircase. The frog wants to reach the 'Nth' stair. 'HEIGHT[i]' is the height of the '(i+1)th' stair.If Frog jumps from 'ith' to 'jth' stair, the energy lost in the jump is given by absolute value of ( HEIGHT[i-1] - HEIGHT[j-1] ). If the Frog is on 'ith' staircase, he can jump either to '(i+1)th' stair or to '(i+2)th' stair. Your task is to find the minimum total energy used by the frog to reach from '1st' stair to 'Nth' stair.
 
+# For Example
+# If the given ‘HEIGHT’ array is [10,20,30,10], the answer 20 as the frog can jump from 1st stair to 2nd stair (|20-10| = 10 energy lost) and then a jump from 2nd stair to last stair (|10-20| = 10 energy lost). So, the total energy lost is 20.
+# """
+# from os import *
+# from sys import *
+# from collections import *
+# from math import *
 
-""" Tabulation version when given k i.e jump k + 1, k + 2, k + 3...."""
-k = 5
+# from typing import *
 
 
-def frogJump(n: int, heights: List[int]) -> int:
+# def frogJump(n: int, heights: List[int]) -> int:
+#     dp = [-1] * (n)
 
-    dp = [float("inf")] * n
-    # base case: meaning when we reach the top the stairs
-    dp[0] = 0
+#     def solve(i):
 
-    for i in range(1, n):  #
-        # try all possible jumps
-        for j in range(1, k + 1):
-            # we want to know if we can jump from index zero to the current i
-            if i - j >= 0:
-                # dp of i is infinity
-                dp[i] = min(dp[i], dp[i - j] + abs(heights[i] - heights[i - j]))
-        return dp[n - 1]  # this is the last element
+#         if i == 0:
+#             return 0
+#         if dp[i] != -1:
+#             return dp[i]
+#         # check for one and two step:
+#         left = solve(i - 1) + abs(heights[i] - heights[i - 1])
 
+#         right = float("inf")
+#         if i > 1:
+#             right = solve(i - 2) + abs(heights[i] - heights[i - 2])
 
-"""983. Minimum Cost For Tickets"""
+#         dp[i] = min(left, right)
+#         return dp[i]  # to be used in the next iteration
 
+#     return solve(n - 1)
+#     pass
 
-class Solution:
-    def mincostTickets(self, days: List[int], costs: List[int]) -> int:
-        # minimum cost
-        # when i get a pass for today, will it be able to cover for the subsequent days and what will be the the minimum.
-        # Max_day = 30 from the first test case. we should be able to cate fro that day and beyond. The max pass is 30 so we should be able to cater for the next 30 days
 
-        # Tabulation
+# """Tabulation"""
 
-        last_day = days[-1]
-        travel = set(days)
-        dp = [0] * (last_day + 31)  # covering for 30 + 1 index
 
-        for d in range(last_day, -1, -1):
-            if d not in travel:
-                dp[d] = dp[d + 1]
-            else:
-                dp[d] = min(
-                    costs[0] + dp[d + 1], costs[1] + dp[d + 7], costs[2] + dp[d + 30]
-                )
+# def frogJump(n: int, heights: List[int]) -> int:
+#     dp = [float("inf")]
+#     dp[0] = 0
 
-        return dp[0]
+#     for i in range(1, n):
+#         left = dp[i] + heights[i] - heights(i - 1)
 
+#         right = float("inf")
+#         if i > 1:  # meaning if we are at 0, can we jump to i + 2
+#             right = dp[i] + heights[i] - heights[i - 2]
 
-class Solution:
-    def productExceptSelf(self, nums: List[int]) -> List[int]:
-        n = len(nums)
-        prefix = 1
-        answer = [1] * n
+#         dp[i] = min(left, right)
+#     return dp[n - 1]
+#     pass
 
-        for i in range(n):
-            answer[i] = prefix
-            prefix *= nums[i]
 
-        suffix = 1
+# """ Tabulation version when given k i.e jump k + 1, k + 2, k + 3...."""
+# k = 5
 
-        for i in range(n - 1, -1, -1):
-            answer[i] *= suffix  # suffix product  x prefix product
-            suffix *= nums[i]
 
-        return answer
+# def frogJump(n: int, heights: List[int]) -> int:
 
+#     dp = [float("inf")] * n
+#     # base case: meaning when we reach the top the stairs
+#     dp[0] = 0
 
-class Solution:
-    def longestConsecutive(self, nums: List[int]) -> int:
+#     for i in range(1, n):  #
+#         # try all possible jumps
+#         for j in range(1, k + 1):
+#             # we want to know if we can jump from index zero to the current i
+#             if i - j >= 0:
+#                 # dp of i is infinity
+#                 dp[i] = min(dp[i], dp[i - j] + abs(heights[i] - heights[i - j]))
+#         return dp[n - 1]  # this is the last element
 
-        act_set = set(nums)
-        longest = 0
 
-        for n in act_set:
-            if n - 1 not in act_set:  # start sequece
-                length = 1
-                while n + length in act_set:
-                    length += 1
-                longest = max(longest, length)
+# """983. Minimum Cost For Tickets"""
 
-        return longest
 
+# class Solution:
+#     def mincostTickets(self, days: List[int], costs: List[int]) -> int:
+#         # minimum cost
+#         # when i get a pass for today, will it be able to cover for the subsequent days and what will be the the minimum.
+#         # Max_day = 30 from the first test case. we should be able to cate fro that day and beyond. The max pass is 30 so we should be able to cater for the next 30 days
 
-class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
-        # question is in two folds
-        # 1. best time to buy
-        # 2. best time to sell
+#         # Tabulation
 
-        min_val = float("inf")
-        profit = 0
+#         last_day = days[-1]
+#         travel = set(days)
+#         dp = [0] * (last_day + 31)  # covering for 30 + 1 index
 
-        for price in prices:
-            if price < min_val:
-                min_val = price  # best time to buy
-            else:
+#         for d in range(last_day, -1, -1):
+#             if d not in travel:
+#                 dp[d] = dp[d + 1]
+#             else:
+#                 dp[d] = min(
+#                     costs[0] + dp[d + 1], costs[1] + dp[d + 7], costs[2] + dp[d + 30]
+#                 )
 
-                profit = max(profit, price - min_val)  # best time to sell
+#         return dp[0]
 
-        return profit
 
+# class Solution:
+#     def productExceptSelf(self, nums: List[int]) -> List[int]:
+#         n = len(nums)
+#         prefix = 1
+#         answer = [1] * n
 
-class Solution:
-    def lengthOfLongestSubstring(self, s: str) -> int:
-        # implementation using sliding window solution
+#         for i in range(n):
+#             answer[i] = prefix
+#             prefix *= nums[i]
 
-        seen = set()
-        l = 0
-        max_len = 0
+#         suffix = 1
 
-        for r in range(len(s)):
-            while s[r] in seen:
-                seen.remove(s[l])
-                l += 1
-            max_len = max(max_len, r - l + 1)
-            seen.add(s[r])
-        return max_len
+#         for i in range(n - 1, -1, -1):
+#             answer[i] *= suffix  # suffix product  x prefix product
+#             suffix *= nums[i]
 
+#         return answer
 
-class Solution:
-    def characterReplacement(self, s: str, k: int) -> int:
 
-        l = 0
-        count = [0] * 26
-        longest = 0
+# class Solution:
+#     def longestConsecutive(self, nums: List[int]) -> int:
 
-        for r in range(len(s)):
-            count[ord(s[r]) - 65] += 1
-            while (r - l + 1) - max(count) > k:  # if it is invalid
-                count[ord(s[l]) - 65] -= 1  # Go to index of the count
-                l += 1
-            longest = max(longest, r - l + 1)
-        return longest
+#         act_set = set(nums)
+#         longest = 0
 
+#         for n in act_set:
+#             if n - 1 not in act_set:  # start sequece
+#                 length = 1
+#                 while n + length in act_set:
+#                     length += 1
+#                 longest = max(longest, length)
 
-class Solution:
-    def checkInclusion(self, s1: str, s2: str) -> bool:
-        # this will be solved using fixed sliding window
+#         return longest
 
-        n1 = len(s1)
-        n2 = len(s2)
 
-        count_s1 = [0] * 26
-        count_s2 = [0] * 26
+# class Solution:
+#     def maxProfit(self, prices: List[int]) -> int:
+#         # question is in two folds
+#         # 1. best time to buy
+#         # 2. best time to sell
 
-        # start to build the freq
-        if n1 > n2:
-            return False
+#         min_val = float("inf")
+#         profit = 0
 
-        for i in range(n1):
-            count_s1[ord(s1[i]) - ord("a")] += 1
-            count_s2[ord(s2[i]) - ord("a")] += 1
+#         for price in prices:
+#             if price < min_val:
+#                 min_val = price  # best time to buy
+#             else:
 
-        if (
-            count_s1 == count_s2
-        ):  # the equality should be checked after building everything
-            return True
+#                 profit = max(profit, price - min_val)  # best time to sell
 
-        for i in range(n1, n2):  # we have already build some so we continue from there
-            count_s2[ord(s2[i]) - ord("a")] += 1  # we add
-            count_s2[
-                ord(s2[i - n1]) - ord("a")
-            ] -= 1  # we remove from the start to keep the window fixed
-            if count_s1 == count_s2:
-                return True
-        return False
+#         return profit
 
 
-class Solution:
-    def maxSubArray(self, nums: List[int]) -> int:
-        # this problem can be solve using the kadanes algorithm
-        # it is efficien because it work in o(n)
+# class Solution:
+#     def lengthOfLongestSubstring(self, s: str) -> int:
+#         # implementation using sliding window solution
 
-        n = len(nums)
-        max_sum = float("-inf")
-        cur_sum = 0
+#         seen = set()
+#         l = 0
+#         max_len = 0
 
-        for i in range(n):
-            cur_sum += nums[i]
-            max_sum = max(max_sum, cur_sum)
+#         for r in range(len(s)):
+#             while s[r] in seen:
+#                 seen.remove(s[l])
+#                 l += 1
+#             max_len = max(max_len, r - l + 1)
+#             seen.add(s[r])
+#         return max_len
 
-            if cur_sum < 0:
-                cur_sum = 0
-        return max_sum
 
+# class Solution:
+#     def characterReplacement(self, s: str, k: int) -> int:
 
-class Solution:
-    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+#         l = 0
+#         count = [0] * 26
+#         longest = 0
 
-        n = len(nums)
-        min_len = float("inf")
+#         for r in range(len(s)):
+#             count[ord(s[r]) - 65] += 1
+#             while (r - l + 1) - max(count) > k:  # if it is invalid
+#                 count[ord(s[l]) - 65] -= 1  # Go to index of the count
+#                 l += 1
+#             longest = max(longest, r - l + 1)
+#         return longest
 
-        cur_sum = 0
-        l = 0
-        for r in range(n):  # sliding window expand
-            cur_sum += nums[r]
-            while cur_sum >= target:  # while it is greater
-                min_len = min(min_len, r - l + 1)  # we check the  min
-                cur_sum -= nums[l]  # then we shrink
-                l += 1
-        if min_len == float(
-            "inf"
-        ):  # at the end of everything and this hasn't been updated: NO SUBARRAY!!
-            return 0
 
-        return min_len
+# class Solution:
+#     def checkInclusion(self, s1: str, s2: str) -> bool:
+#         # this will be solved using fixed sliding window
 
+#         n1 = len(s1)
+#         n2 = len(s2)
 
-class Solution:
-    def isValid(self, s: str) -> bool:
+#         count_s1 = [0] * 26
+#         count_s2 = [0] * 26
 
-        seen = {")": "(", "}": "{", "]": "["}
-        stack = []
+#         # start to build the freq
+#         if n1 > n2:
+#             return False
 
-        for char in s:
-            if char in seen:  # we start with close bracket
-                pop = stack.pop() if stack else "#"  # we pop an open bracket
+#         for i in range(n1):
+#             count_s1[ord(s1[i]) - ord("a")] += 1
+#             count_s2[ord(s2[i]) - ord("a")] += 1
 
-                if seen[char] != pop:  # then we  compare
-                    return False
-            else:
-                stack.append(char)  # open bracket ([{
-        return not stack  # the stack should be empty
+#         if (
+#             count_s1 == count_s2
+#         ):  # the equality should be checked after building everything
+#             return True
 
+#         for i in range(n1, n2):  # we have already build some so we continue from there
+#             count_s2[ord(s2[i]) - ord("a")] += 1  # we add
+#             count_s2[
+#                 ord(s2[i - n1]) - ord("a")
+#             ] -= 1  # we remove from the start to keep the window fixed
+#             if count_s1 == count_s2:
+#                 return True
+#         return False
 
-class MinStack:
-    # the aim is to get the minimum value in the stack
-    def __init__(self):
-        self.stack = []  # for our stack container
-        self.min_stack = []
 
-    def push(self, val: int) -> None:
-        self.stack.append(val)
+# class Solution:
+#     def maxSubArray(self, nums: List[int]) -> int:
+#         # this problem can be solve using the kadanes algorithm
+#         # it is efficien because it work in o(n)
 
-        if not self.min_stack or val <= self.min_stack[-1]:
-            self.min_stack.append(val)
+#         n = len(nums)
+#         max_sum = float("-inf")
+#         cur_sum = 0
 
-    def pop(self) -> None:
-        if not self.stack:
-            return "stack is empty"
-        popped = self.stack.pop()
+#         for i in range(n):
+#             cur_sum += nums[i]
+#             max_sum = max(max_sum, cur_sum)
 
-        if popped == self.min_stack[-1]:
-            return self.min_stack.pop()
+#             if cur_sum < 0:
+#                 cur_sum = 0
+#         return max_sum
 
-    def top(self) -> int:
-        if not self.stack:
-            return "stack is empty"
-        return self.stack[-1]
 
-    def getMin(self) -> int:
-        if not self.min_stack:
-            return "There is no minimum element"
-        return self.min_stack[-1]
+# class Solution:
+#     def minSubArrayLen(self, target: int, nums: List[int]) -> int:
 
+#         n = len(nums)
+#         min_len = float("inf")
 
-class Solution:
-    def evalRPN(self, tokens: List[str]) -> int:
+#         cur_sum = 0
+#         l = 0
+#         for r in range(n):  # sliding window expand
+#             cur_sum += nums[r]
+#             while cur_sum >= target:  # while it is greater
+#                 min_len = min(min_len, r - l + 1)  # we check the  min
+#                 cur_sum -= nums[l]  # then we shrink
+#                 l += 1
+#         if min_len == float(
+#             "inf"
+#         ):  # at the end of everything and this hasn't been updated: NO SUBARRAY!!
+#             return 0
 
-        # we will use lambda function to create a dict
-        # when we see a value , it will be push on stack.
-        # when we see  an operator, we will pop the top two, perform operation and push it back
+#         return min_len
 
-        stack = []
-        calc = {
-            "+": lambda a, b: a + b,
-            "-": lambda a, b: a - b,
-            "*": lambda a, b: a * b,
-            "/": lambda a, b: int(a / b),
-        }  # it / generate float and the int truncates it to zero
 
-        for token in tokens:
-            if token in calc:
-                b = stack.pop()
-                a = stack.pop()
+# class Solution:
+#     def isValid(self, s: str) -> bool:
 
-                stack.append(
-                    calc[token](a, b)
-                )  # dictionary approach. perform our calculation the we push back
-            else:
-                stack.append(int(token))
-        return stack[0]  # it follow the same pattern as  he valid parenthesis
+#         seen = {")": "(", "}": "{", "]": "["}
+#         stack = []
 
+#         for char in s:
+#             if char in seen:  # we start with close bracket
+#                 pop = stack.pop() if stack else "#"  # we pop an open bracket
 
-class Solution:
-    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
-        # monotonic stack
-        # res[ind] = i - ind
-        stack = []
-        n = len(temperatures)
-        res = [0] * n
+#                 if seen[char] != pop:  # then we  compare
+#                     return False
+#             else:
+#                 stack.append(char)  # open bracket ([{
+#         return not stack  # the stack should be empty
 
-        for i in range(n):
-            while stack and temperatures[i] > temperatures[stack[-1]]:
-                prev = stack.pop()
-                res[prev] = i - prev  # prev = l and i = r
-            stack.append(i)
-        return res
 
+# class MinStack:
+#     # the aim is to get the minimum value in the stack
+#     def __init__(self):
+#         self.stack = []  # for our stack container
+#         self.min_stack = []
 
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
+#     def push(self, val: int) -> None:
+#         self.stack.append(val)
 
+#         if not self.min_stack or val <= self.min_stack[-1]:
+#             self.min_stack.append(val)
 
-class Solution:
-    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        # keep track after when we remove the pointer from cur to prev
-        # next.node = cur.next
+#     def pop(self) -> None:
+#         if not self.stack:
+#             return "stack is empty"
+#         popped = self.stack.pop()
 
-        cur = head
-        prev = None
+#         if popped == self.min_stack[-1]:
+#             return self.min_stack.pop()
 
-        while cur:
-            next_node = cur.next
-            cur.next = prev
-            prev = cur
-            cur = next_node
-        return prev  # the prev becomes the new head because the fist node is now pointing to none
+#     def top(self) -> int:
+#         if not self.stack:
+#             return "stack is empty"
+#         return self.stack[-1]
 
+#     def getMin(self) -> int:
+#         if not self.min_stack:
+#             return "There is no minimum element"
+#         return self.min_stack[-1]
 
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
 
+# class Solution:
+#     def evalRPN(self, tokens: List[str]) -> int:
 
-class Solution:
-    def mergeTwoLists(
-        self, list1: Optional[ListNode], list2: Optional[ListNode]
-    ) -> Optional[ListNode]:
+#         # we will use lambda function to create a dict
+#         # when we see a value , it will be push on stack.
+#         # when we see  an operator, we will pop the top two, perform operation and push it back
 
-        l1, l2 = list1, list2
-        dummy = ListNode()
-        tail = dummy
+#         stack = []
+#         calc = {
+#             "+": lambda a, b: a + b,
+#             "-": lambda a, b: a - b,
+#             "*": lambda a, b: a * b,
+#             "/": lambda a, b: int(a / b),
+#         }  # it / generate float and the int truncates it to zero
 
-        while l1 and l2:
-            if l1.val < l2.val:
-                tail.next = l1
-                l1 = l1.next
-                tail = tail.next
+#         for token in tokens:
+#             if token in calc:
+#                 b = stack.pop()
+#                 a = stack.pop()
 
-            else:
-                tail.next = l2
-                l2 = l2.next
-                tail = tail.next
+#                 stack.append(
+#                     calc[token](a, b)
+#                 )  # dictionary approach. perform our calculation the we push back
+#             else:
+#                 stack.append(int(token))
+#         return stack[0]  # it follow the same pattern as  he valid parenthesis
 
-        if l1:
-            tail.next = l1
-        if l2:
-            tail.next = l2
-        return dummy.next
 
+# class Solution:
+#     def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+#         # monotonic stack
+#         # res[ind] = i - ind
+#         stack = []
+#         n = len(temperatures)
+#         res = [0] * n
 
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
+#         for i in range(n):
+#             while stack and temperatures[i] > temperatures[stack[-1]]:
+#                 prev = stack.pop()
+#                 res[prev] = i - prev  # prev = l and i = r
+#             stack.append(i)
+#         return res
 
 
-class Solution:
-    def hasCycle(self, head: Optional[ListNode]) -> bool:
+# # Definition for singly-linked list.
+# # class ListNode:
+# #     def __init__(self, val=0, next=None):
+# #         self.val = val
+# #         self.next = next
 
-        slow, fast = head, head
 
-        while fast and fast.next:
-            slow = slow.next
-            fast = fast.next.next
-            if slow == fast:
-                return True
+# class Solution:
+#     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+#         # keep track after when we remove the pointer from cur to prev
+#         # next.node = cur.next
 
-        return False
+#         cur = head
+#         prev = None
 
+#         while cur:
+#             next_node = cur.next
+#             cur.next = prev
+#             prev = cur
+#             cur = next_node
+#         return prev  # the prev becomes the new head because the fist node is now pointing to none
 
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
 
+# # Definition for singly-linked list.
+# # class ListNode:
+# #     def __init__(self, val=0, next=None):
+# #         self.val = val
+# #         self.next = next
 
-class Solution:
-    def reorderList(self, head: Optional[ListNode]) -> None:
 
-        # Using array to do the reorder
+# class Solution:
+#     def mergeTwoLists(
+#         self, list1: Optional[ListNode], list2: Optional[ListNode]
+#     ) -> Optional[ListNode]:
 
-        cur = head
+#         l1, l2 = list1, list2
+#         dummy = ListNode()
+#         tail = dummy
 
-        node = []
-        while cur:
-            node.append(cur)
-            cur = cur.next
+#         while l1 and l2:
+#             if l1.val < l2.val:
+#                 tail.next = l1
+#                 l1 = l1.next
+#                 tail = tail.next
 
-        l, r = 0, len(node) - 1
-        # because they are still nodes, we can use the pointer to connect the nodes
+#             else:
+#                 tail.next = l2
+#                 l2 = l2.next
+#                 tail = tail.next
 
-        while l < r:
-            node[l].next = node[r]
-            l += 1
+#         if l1:
+#             tail.next = l1
+#         if l2:
+#             tail.next = l2
+#         return dummy.next
 
-            # when l and r becomes equal, that means  we are done connecting, so we should exit the loop
 
-            if l == r:
-                break
+# # Definition for singly-linked list.
+# # class ListNode:
+# #     def __init__(self, val=0, next=None):
+# #         self.val = val
+# #         self.next = next
 
-            node[r].next = node[l]
-            r -= 1
 
-        node[l].next = (
-            None  # always the nodes are having next, so we have to terminate it else it will lead to infinite loop
-        )
+# class Solution:
+#     def hasCycle(self, head: Optional[ListNode]) -> bool:
 
+#         slow, fast = head, head
 
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
+#         while fast and fast.next:
+#             slow = slow.next
+#             fast = fast.next.next
+#             if slow == fast:
+#                 return True
 
+#         return False
 
-class Solution:
-    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
 
-        cur = head
-        res = []
+# # Definition for singly-linked list.
+# # class ListNode:
+# #     def __init__(self, val=0, next=None):
+# #         self.val = val
+# #         self.next = next
 
-        while cur:
-            res.append(cur.val)
-            cur = cur.next
 
-        ind = len(res) - n
-        res.pop(ind)
+# class Solution:
+#     def reorderList(self, head: Optional[ListNode]) -> None:
 
-        dummy = ListNode(0)
-        curr = dummy
+#         # Using array to do the reorder
 
-        for node in res:
-            curr.next = ListNode(node)
+#         cur = head
 
-            curr = curr.next
+#         node = []
+#         while cur:
+#             node.append(cur)
+#             cur = cur.next
 
-        return dummy.next
+#         l, r = 0, len(node) - 1
+#         # because they are still nodes, we can use the pointer to connect the nodes
 
+#         while l < r:
+#             node[l].next = node[r]
+#             l += 1
 
-from collections import Counter
+#             # when l and r becomes equal, that means  we are done connecting, so we should exit the loop
 
+#             if l == r:
+#                 break
 
-class Solution:
-    def findDuplicate(self, nums: List[int]) -> int:
-        # # starting with the brute force
+#             node[r].next = node[l]
+#             r -= 1
 
-        # cnt = Counter(nums)
+#         node[l].next = (
+#             None  # always the nodes are having next, so we have to terminate it else it will lead to infinite loop
+#         )
 
-        # for key, value in cnt.items():
-        #     if cnt[key] > 1:
-        #         return key
 
-        # the above solution uses o(n) space, so set() can be used
+# # Definition for singly-linked list.
+# # class ListNode:
+# #     def __init__(self, val=0, next=None):
+# #         self.val = val
+# #         self.next = next
 
-        seen = set()
-        for i in nums:
-            if i in seen:
-                return i
-            seen.add(i)
+
+# class Solution:
+#     def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+
+#         cur = head
+#         res = []
+
+#         while cur:
+#             res.append(cur.val)
+#             cur = cur.next
+
+#         ind = len(res) - n
+#         res.pop(ind)
+
+#         dummy = ListNode(0)
+#         curr = dummy
+
+#         for node in res:
+#             curr.next = ListNode(node)
+
+#             curr = curr.next
+
+#         return dummy.next
+
+
+# from collections import Counter
+
+
+# class Solution:
+#     def findDuplicate(self, nums: List[int]) -> int:
+#         # # starting with the brute force
+
+#         # cnt = Counter(nums)
+
+#         # for key, value in cnt.items():
+#         #     if cnt[key] > 1:
+#         #         return key
+
+#         # the above solution uses o(n) space, so set() can be used
+
+#         seen = set()
+#         for i in nums:
+#             if i in seen:
+#                 return i
+#             seen.add(i)
+
+from collections import OrderedDict
+
+od = OrderedDict([("a", 3), ("b", 2), ("c", 4), ("d", 7)])
+od.move_to_end("a")
+od.move_to_end("c", last=False)
+
+for key, val in od.items():
+    print(key, val)
