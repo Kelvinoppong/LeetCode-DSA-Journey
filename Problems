@@ -676,3 +676,20 @@ class LRUCache:
         self.cache[key] = value
         if len(self.cache) > self.capacity:
             self.cache.popitem(last=False)
+
+
+class Solution:
+    def thirdMax(self, nums: List[int]) -> int:
+
+        rem_dup = list(set(nums))
+
+        if len(rem_dup) < 3:
+            return max(rem_dup)
+
+        rem_dup.sort(reverse=True)
+
+        return rem_dup[2]
+
+
+# key takeaway
+# always try to solve the problem first before solving the final one
