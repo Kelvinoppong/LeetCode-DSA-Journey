@@ -691,5 +691,23 @@ class Solution:
         return rem_dup[2]
 
 
+class Solution:
+    def findDisappearedNumbers(self, nums: List[int]) -> List[int]:
+
+        # n = len(nums)
+        # res = []
+
+        # for i in range(1,n+1):
+        #     if i not in nums: #
+        #         res.append(i)
+        # return res
+
+        unique = set(nums)
+        # using the second input, the otput becomes = 1
+        n = len(nums)
+        res = [i for i in range(1, n + 1) if i not in unique]
+        return res
+
+
 # key takeaway
 # always try to solve the problem first before solving the final one
