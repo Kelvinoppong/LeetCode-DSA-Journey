@@ -703,7 +703,7 @@ class Solution:
         # return res
 
         unique = set(nums)
-        # using the second input, the otput becomes = 1
+        # using the second input, the output becomes = 1
         n = len(nums)
         res = [i for i in range(1, n + 1) if i not in unique]
         return res
@@ -720,9 +720,24 @@ class Solution:
         child = 0
         cookie = 0
 
-        while child < len(g) and cookie < len(s):  # each child can hsve one cookie
+        while child < len(g) and cookie < len(s):  # each child can has one cookie
             if s[cookie] >= g[child]:
                 child += 1  # we are able to satisfy a child, move forward to the next
             cookie += 1  # move to the next cookie as well because we are able to satisfy the prev or the prev child need more to be content so move to the next one
 
         return child
+
+
+class Solution:
+    def findMaxConsecutiveOnes(self, nums: List[int]) -> int:
+
+        l = 0
+        max_count = 0
+
+        for r in range(len(nums)):
+            if nums[r] == 0:  # we end our streak when we meet 0
+                max_count = max(max_count, r - l)
+                l = r + 1
+        max_count = max(max_count, len(nums) - l)
+        # we will never meet another 0 so we will subtract the current pos of l from the n ....
+        return max_count
