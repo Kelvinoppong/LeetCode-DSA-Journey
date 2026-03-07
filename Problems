@@ -1,4 +1,4 @@
-""":
+"""
 LONGEST SUBSTRING WITHOUT REPEATING CHARACTER
 - We use the sliding window technique with two pointers: left (l) and right (r).
 - The right pointer moves forward one character at a time to expand the window.
