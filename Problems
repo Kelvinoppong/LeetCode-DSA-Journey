@@ -83,7 +83,7 @@ def climbStairs(self, n: int) -> int:
     # dp[2] = f(2-2) + f(2-1) = 0 + 1 = 2 which is incorrect, that why f(0) is counted as one
     # if you are at  the stair one, the only way to to get to the ground is one way  (n-1)
 
-    # since it's tabulation you build from button to top
+    # since it's tabulation you build from bottom to top
 
     dp[0] = 1
     dp[1] = 1
@@ -110,8 +110,8 @@ class Solution:
         # you can either stand on index 0 or 1. so from there it does'nt count
         dp[0] = 0
         dp[1] = 0
-        # when you take two step or one step and you land you pay for it... the you take the minimum This is DP tabulation so
-        # we move from button to top.
+        # when you take two step or one step and you land you pay for it... then you take the minimum. This is DP tabulation so
+        # we move from bottom to top.
         for i in range(2, n + 1):
             dp[i] = min(dp[i - 1] + cost[i - 1], dp[i - 2] + cost[i - 2])
         return dp[i]
